@@ -1,8 +1,6 @@
-export interface News {
-    count:    number;
-    next:     string;
-    previous: null;
-    results:  Result[];
+export interface Launch {
+    launch_id: string;
+    provider:  string;
 }
 
 export interface Result {
@@ -19,8 +17,11 @@ export interface Result {
     events:       any[];
 }
 
-export interface Launch {
-    launch_id: string;
-    provider:  string;
+export interface News {
+    count:    number;
+    next:     string | null;
+    previous: string | null;
+    results:  Result[];
 }
+
 

@@ -5,14 +5,12 @@ import { Result } from '../interfaces/news'
 
 const SingleNews = () => {
   const navigate = useNavigate()
-  const [newsDetail, setNewsDetail] = useState<Result[]>([])
-  const params = useParams()
-  console.log('Params', params)
-  console.log('la news da far vedere ha id', params.newsId)
-  const newsIndex = params.newsId
+  const [newsDetail, setNewsDetail] = useState<Result | null>(null)
+  const params = useParams<{ articleId: string }>()
+  console.log('params', params)
 
   useEffect(() => {
-    fetch('https://api.spaceflightnewsapi.net/v4/articles/' + newsIndex)
+    fetch('https://api.spaceflightnewsapi.net/v4/articles/' + params.articleId)
       .then((res) => {
         if (res.ok) {
           return res.json()
@@ -20,7 +18,7 @@ const SingleNews = () => {
       })
       .then((data) => {
         console.log('Dati dei dettagli della fetch', data)
-        setNewsDetail(data.results)
+        setNewsDetail(data)
       })
       .catch((err) => {
         console.log('Errore', err)
@@ -28,21 +26,23 @@ const SingleNews = () => {
   }, [])
   return (
     <Container>
-      <Row>
-        <Col md={8}>
-          <Card>
-            {/* <Card.Img variant="top" src={newsDetail.image_url} />
-            <Card.Body>
-              <Card.Title>{newsDetail.title}</Card.Title>
-              <Card.Text>{newsDetail.summary}</Card.Text>
-              <Card.Text>{newsDetail.news_site}</Card.Text>
-              <Card.Text>{newsDetail.published_at}</Card.Text>
-              <Button variant="primary" onClick={() => navigate('/')}>
-                Back
-              </Button>
-            </Card.Body> */}
-          </Card>
-        </Col>
+      <Row className="justify-content-center mt-5">
+        {newsDetail && (
+          <Col md={8}>
+            <Card>
+              <Card.Img variant="top" src={newsDetail.image_url} />
+              <Card.Body>
+                <Card.Title>{newsDetail.title}</Card.Title>
+                <Card.Text>{newsDetail.summary}</Card.Text>
+                <Card.Text>{newsDetail.news_site}</Card.Text>
+                <Card.Text>{newsDetail.published_at}</Card.Text>
+                <Button variant="primary" onClick={() => navigate('/')}>
+                  Back
+                </Button>
+              </Card.Body>
+            </Card>
+          </Col>
+        )}
       </Row>
     </Container>
   )

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Card, Button, Container, Row, Col } from 'react-bootstrap'
 import { Result } from '../interfaces/news'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 
 const SpaceNews = () => {
   const [news, setNews] = useState<Result[]>([])
@@ -26,27 +26,26 @@ const SpaceNews = () => {
   return (
     <Container className="text-center">
       <Row className="justify-content-center">
-        <Col md={6}>
-          {news.map((r) => {
-            return (
-              <Card key={r.id} className="my-3">
-                <Card.Img variant="top" src={r.image_url} />
+        {news.map((r) => {
+          return (
+            <Col key={r.id} md={4} className="mb-4">
+              <Card className="my-3 h-100">
+                <Card.Img variant="top" src={r.image_url} className="h-50" />
                 <Card.Body>
                   <Card.Title>{r.title}</Card.Title>
-                  <Button
-                    variant="primary"
-                    onClick={() => navigate('/detail/:newsId')}
-                  >
-                    More
-                  </Button>
+                  <Link to={'/' + r.id}>
+                    <Button variant="primary">More</Button>
+                  </Link>
                 </Card.Body>
               </Card>
-            )
-          })}
-        </Col>
+            </Col>
+          )
+        })}
       </Row>
     </Container>
   )
 }
+
+// / + articledetails.id
 
 export default SpaceNews

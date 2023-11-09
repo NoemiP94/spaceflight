@@ -11,7 +11,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<SpaceNews />} />
-          <Route path={'/detail/:newsId'} element={<SingleNews />} />
+          <Route path={'/:articleId'} element={<SingleNews />} />
         </Routes>
       </BrowserRouter>
     </div>
